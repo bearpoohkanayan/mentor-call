@@ -5,8 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bell</title>
-    <link rel="preload" href="/bell.mp3" as="Audio">
+    <link rel="preload" href="/bell.mp3" as="audio">
     <style>
+        * {
+            font-family: sans-serif;
+            text-align: center;
+        }
+
         img {
             width: 80vw;
             max-width: 380px;
@@ -20,12 +25,37 @@
 </head>
 
 <body>
-    <img src="/bell.png" onclick="new Audio('/bell.mp3').play()">
+    <div id="menu">
+        <p>めんたー呼ぶやつ</p>
+        <button id="open">OPEN</button>
+    </div>
+    <div id="main" style="display: none;">
+        <img src="/bell.png" onclick="new Audio('/bell.mp3').play()">
+        <audio id="audio" src="/bell.mp3" preload="metadata"></audio>
+    </div>
     <script>
-        document.addEventListener('keypress', keypress_ivent);
-        function keypress_ivent(e) {
-            if (e.code === 'Space') {
-                new Audio('/bell.mp3').play()
+        document.getElementById('open').addEventListener("click", function () {
+            DeviceMotionEvent.requestPermission()
+            document.getElementById("audio").load()
+            document.getElementById('menu').style.display = 'none'
+            document.getElementById('main').style.display = 'block'
+        });
+        // document.addEventListener("click", function () { DeviceMotionEvent.requestPermission(); document.getElementById("audio").load() })
+        var speed = 5
+        var timeout = 100
+        var lastshaketime = 0
+        var lastshakeangle = 0
+        window.addEventListener('devicemotion', handleMotion)
+        function handleMotion(event) {
+            var acceleration = event.accelerationIncludingGravity
+            var currenttime = new Date().getTime()
+            if (currenttime - lastshaketime > timeout) {
+                var anglex = Math.abs(acceleration.x)
+                if (anglex > lastshakeangle + speed) {
+                    document.getElementById("audio").play()
+                }
+                lastshakeangle = anglex
+                lastshaketime = currenttime
             }
         }
     </script>
