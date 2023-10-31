@@ -26,19 +26,18 @@
 
 <body>
     <div id="menu">
-        <p>めんたー呼ぶやつ iOS版</p>
+        <p>めんたー呼ぶやつ</p>
         <button id="open">OPEN</button>
-        <a href="/android.html">Android版</a>
-        <a href="/pc.html">PC版</a>
+        <a href=""></a>
     </div>
     <div id="main" style="display: none;">
+        <p>Android</p>
         <img src="/bell.png" onclick="new Audio('/bell.mp3').play()">
         <audio id="audio" src="/bell.mp3" preload="metadata"></audio>
     </div>
     <script>
         document.getElementById('open').addEventListener("click", function () {
-            DeviceMotionEvent.requestPermission()
-            document.getElementById("audio").load()
+            document.getElementById("audio").load() 
             document.getElementById('menu').style.display = 'none'
             document.getElementById('main').style.display = 'block'
         });
