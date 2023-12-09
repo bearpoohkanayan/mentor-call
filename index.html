@@ -26,10 +26,8 @@
 
 <body>
     <div id="menu">
-        <p>めんたー呼ぶやつ iOS版</p>
+        <p>めんたー呼ぶやつ</p>
         <button id="open">OPEN</button>
-        <a href="/android.html">Android版</a>
-        <a href="/pc.html">PC版</a>
     </div>
     <div id="main" style="display: none;">
         <img src="/bell.png" onclick="new Audio('/bell.mp3').play()">
@@ -37,7 +35,9 @@
     </div>
     <script>
         document.getElementById('open').addEventListener("click", function () {
-            DeviceMotionEvent.requestPermission()
+            if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
+                DeviceMotionEvent.requestPermission()
+            }
             document.getElementById("audio").load()
             document.getElementById('menu').style.display = 'none'
             document.getElementById('main').style.display = 'block'
@@ -46,7 +46,12 @@
         var timeout = 100
         var lastshaketime = 0
         var lastshakeangle = 0
-        window.addEventListener('devicemotion', handleMotion)
+        if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
+            window.addEventListener('devicemotion', handleMotion)
+        } else {
+            document.getElementById('menu').style.display = 'none'
+            document.getElementById('main').style.display = 'block'
+        }
         function handleMotion(event) {
             var acceleration = event.accelerationIncludingGravity
             var currenttime = new Date().getTime()
