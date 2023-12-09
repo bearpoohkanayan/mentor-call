@@ -47,6 +47,9 @@
                 e.preventDefault();
             }
         }, { passive: false });
+        document.addEventListener("dblclick", function (e) {
+            e.preventDefault();
+        }, { passive: false });
         var speed = 5
         var timeout = 100
         var lastshaketime = 0
