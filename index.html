@@ -42,6 +42,11 @@
             document.getElementById('menu').style.display = 'none'
             document.getElementById('main').style.display = 'block'
         });
+        document.addEventListener("touchstart", (e) => {
+            if (e.touches.length > 1) {
+                e.preventDefault();
+            }
+        }, { passive: false });
         var speed = 5
         var timeout = 100
         var lastshaketime = 0
