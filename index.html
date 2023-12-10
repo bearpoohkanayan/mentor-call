@@ -38,22 +38,28 @@
         <audio id="audio" src="/bell.mp3" preload="metadata"></audio>
     </div>
     <script>
+        //OPENボタンを押した時
         document.getElementById('open').addEventListener("click", function () {
+            //ユーザーに許可がいる端末の場合は許可を取る
             if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
                 DeviceMotionEvent.requestPermission()
             }
+            //音声ファイルを読み込んでおく(ユーザーのタッチアクション以外で音声を再生するため)
             document.getElementById("audio").load()
             document.getElementById('menu').style.display = 'none'
             document.getElementById('main').style.display = 'block'
         });
+        //拡大されないようにする
         document.addEventListener("touchstart", (e) => {
             if (e.touches.length > 1) {
                 e.preventDefault();
             }
         }, { passive: false });
+        //ダブルタップで拡大されないようにする
         document.addEventListener("dblclick", function (e) {
             e.preventDefault();
         }, { passive: false });
+        //加速度センサーの処理
         var speed = 5
         var timeout = 100
         var lastshaketime = 0
